@@ -4,8 +4,8 @@ import json
 
 token = 'YOUR_TOKEN'
 
-#Delete files older than this:
-ts_to = int(time.time()) - 30 * 24 * 60 * 60
+#Delete files older than 2 years:
+ts_to = int(time.time()) - 2 * 365 * 24 * 60 * 60
 
 def list_files():
   params = {
