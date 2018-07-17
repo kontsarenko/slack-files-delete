@@ -1,10 +1,8 @@
 import requests
 import time
 import json
-import yaml
 
-with open("/home/pi/bell/raspberry-bell/config.yml", 'r') as ymlfile:
-    config = yaml.load(ymlfile)
+token = 'YOUR_TOKEN'
 
 #Delete files older than this:
 ts_to = int(time.time()) - 30 * 24 * 60 * 60
@@ -17,7 +15,9 @@ def list_files():
   }
   uri = 'https://slack.com/api/files.list'
   response = requests.get(uri, params=params)
-  return json.loads(response.text)['files']
+  response_parsed =  json.loads(response.text)
+  print(response_parsed)
+  return response_parsed['files']
 
 def delete_files(file_ids):
   count = 0
@@ -30,7 +30,9 @@ def delete_files(file_ids):
       }
     uri = 'https://slack.com/api/files.delete'
     response = requests.get(uri, params=params)
-    print count, "of", num_files, "-", file_id, json.loads(response.text)['ok']
+    response_file = json.loads(response.text)
+    print(response_file)
+    print count, "of", num_files, "-", file_id, response_file['ok']
 
 files = list_files()
 file_ids = [f['id'] for f in files]
